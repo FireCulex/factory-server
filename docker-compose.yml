@@ -1,0 +1,12 @@
+services:
+  factory-server:
+    image: factory-server:latest
+    container_name: factory-server
+    ports:
+      - "22:22/tcp"
+      - "7777:7777/udp"
+      - "7777:7777/tcp"
+      - "8888:8888/tcp"
+    volumes:
+      - /media/ntfs/satisfactory:/satisfactory
+      - /media/ntfs/satisfactory/Epic:/home/steam/.config/Epic
