@@ -10,11 +10,14 @@ RUN apt-get update -y && \
     echo steam steam/question select "I AGREE" | debconf-set-selections && \
     apt-get install --no-install-recommends -y \
     steamcmd && \
-    /usr/games/steamcmd +quit && \
-    rm -rf /var/lib/apt/lists/*
+    /usr/games/steamcmd +quit
 
-RUN apt-get update -y && \
-    apt-get install -y --no-install-recommends \
+RUN apt-get install -y --no-install-recommends \
+    net-tools \
+    psmisc \
+    cron
+
+RUN apt-get install -y --no-install-recommends \
     openssh-server && \
     rm -rf /var/lib/apt/lists/* && \
     mkdir -p /run/sshd && \
@@ -24,5 +27,12 @@ RUN apt-get update -y && \
 # Create 'steam' user with the password 'steam'
 RUN adduser --gecos '' --disabled-password steam && echo "steam:steam" | chpasswd
 
-# Start vsftpd as root and FactoryServer.sh as steam
-CMD ["/bin/bash", "-c", "/usr/sbin/sshd & su - steam -c '/satisfactory/FactoryServer.sh'"]
+COPY update.sh /usr/games/update.sh
+
+# Add the cron job
+RUN echo "0 * * * * /usr/games/update.sh" >> /etc/crontab
+
+COPY start_factory.sh /usr/games/start_factory.sh
+RUN chmod +x /usr/games/start_factory.sh
+
+ENTRYPOINT ["/usr/games/start_factory.sh"]
