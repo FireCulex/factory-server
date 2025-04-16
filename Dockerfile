@@ -30,7 +30,7 @@ RUN adduser --gecos '' --disabled-password steam && echo "steam:steam" | chpassw
 COPY update.sh /usr/games/update.sh
 
 # Add the cron job
-RUN echo "0 * * * * /usr/games/update.sh" >> /etc/crontab
+RUN echo "0 * * * * /usr/games/update.sh" >> /var/spool/cron/crontabs/root
 
 COPY start_factory.sh /usr/games/start_factory.sh
 RUN chmod +x /usr/games/start_factory.sh

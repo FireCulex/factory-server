@@ -10,3 +10,4 @@ services:
     volumes:
       - /media/ntfs/satisfactory:/satisfactory
       - /media/ntfs/satisfactory/Epic:/home/steam/.config/Epic
+    restart: unless-stopped

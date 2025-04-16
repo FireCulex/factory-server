@@ -20,7 +20,6 @@ else
        echo "An update is available! Installed Build: $current_build | Latest Build: $latest_build."
        killall FactoryServer.sh
        /usr/games/steamcmd +force_install_dir /satisfactory +login anonymous +app_update 1690800 -beta experimental validate +quit
-       su - steam -c '/satisfactory/FactoryServer.sh'
    else
        echo "Failed to retrieve the latest build ID. Please check SteamCMD output or network connectivity."
    fi
